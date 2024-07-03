@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from "./header/header.component";
-import { AngularFirestore } from '@angular/fire/firestore'
 
 
 @Component({
