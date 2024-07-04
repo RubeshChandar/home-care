@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from "./header/header.component";
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-root',
@@ -12,4 +12,9 @@ import { HeaderComponent } from "./header/header.component";
 export class AppComponent {
   title = 'home-care';
 
+  constructor(private firestore: AngularFirestore) {
+    firestore.collection("Test").doc("Check").update({
+      "Time": new Date(),
+    })
+  }
 }
