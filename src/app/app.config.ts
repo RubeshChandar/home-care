@@ -8,8 +8,6 @@ import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/compat/fun
 import { routes } from './app.routes';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
-console.log("Use emu : " + environment.useEmulators)
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),

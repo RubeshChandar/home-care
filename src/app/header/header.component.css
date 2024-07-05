@@ -27,10 +27,15 @@
   cursor: pointer;
 }
 
+.nav-item:nth-last-child(1):hover {
+  background-color: rgba(248, 56, 56, 0.692);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
 .selected {
   background-color: var(--seconday-color) !important;
   border-radius: 20px;
-  /* border: 1px rgba(0, 0, 0, 0.278) solid; */
   transition: all 1s ease-in-out var(--seconday-color);
 }
 
