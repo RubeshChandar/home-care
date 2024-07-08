@@ -9,7 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  @ViewChild('navbar') nav!: ElementRef;
+  @ViewChild('.navbar') nav!: ElementRef;
   hide = false;
   scroll = 0;
 
