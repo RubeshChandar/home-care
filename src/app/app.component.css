@@ -2,8 +2,8 @@
   margin-top: 70px;
   padding-left: 5%;
   padding-right: 5%;
-  overflow-y: auto;
-  scrollbar-color: rgb(9, 0, 2) rgba(0, 0, 0, 0);
-  height: 90vh;
-  overflow-x: hidden;
+  /* overflow-y: auto; */
+  /* height: 100%; */
+  /* overflow-x: hidden; */
+  scrollbar-color: #090002 rgba(0, 0, 0, 0);
 }
