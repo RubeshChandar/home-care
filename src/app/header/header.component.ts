@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
@@ -9,4 +9,23 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
+  @ViewChild('navbar') nav!: ElementRef;
+  hide = false;
+  scroll = 0;
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    const verticalOffset = document.documentElement.scrollTop
+      || document.body.scrollTop || 0;
+
+    if (verticalOffset > this.scroll) {
+      this.hide = true;
+      this.scroll = verticalOffset;
+    }
+
+    if (verticalOffset < this.scroll) {
+      this.hide = false;
+      this.scroll = verticalOffset;
+    }
+  }
 }
