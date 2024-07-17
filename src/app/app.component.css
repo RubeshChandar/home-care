@@ -1,9 +1,6 @@
 .content {
-  margin-top: 70px;
+  margin-top: 100px;
   padding-left: 5%;
   padding-right: 5%;
-  /* overflow-y: auto; */
-  /* height: 100%; */
-  /* overflow-x: hidden; */
-  scrollbar-color: #090002 rgba(0, 0, 0, 0);
+  scrollbar-color: #090002 rgba(255, 0, 0, 0);
 }

@@ -40,9 +40,9 @@
 }
 
 .selected {
-  background-color: var(--seconday-color) !important;
+  background-color: var(--secondary-color) !important;
   border-radius: 20px;
-  transition: all 1s ease-in-out var(--seconday-color);
+  transition: all 1s ease-in-out var(--secondary-color);
 }
 
 .selected>a {

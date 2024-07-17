@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { HeaderComponent } from "./header/header.component";
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { FirebaseService } from './firebase.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 export class AppComponent {
   title = 'home-care';
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(private firestore: AngularFirestore, private firebaseService: FirebaseService) {
     firestore.collection("Test").doc("Check").update({
       "Time": new Date(),
     })

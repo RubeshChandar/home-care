@@ -1,1 +1,9 @@
-<p>home works!</p>
+<div class="row g-5">
+  @for (patient of patients; track patient.id) {
+  <div class="col-lg-3">
+    <div class="cards">
+      <p>{{patient.name}}</p>
+    </div>
+  </div>
+  }
+</div>

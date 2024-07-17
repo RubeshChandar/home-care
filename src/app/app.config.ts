@@ -7,6 +7,7 @@ import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/compat/fun
 
 import { routes } from './app.routes';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +16,6 @@ export const appConfig: ApplicationConfig = {
     { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
     { provide: USE_AUTH_EMULATOR, useValue: environment.useEmulators ? ['http://localhost', 9099] : undefined },
     { provide: USE_FIRESTORE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 8080] : undefined },
-    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined },
+    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined }, provideAnimationsAsync(),
   ]
 };

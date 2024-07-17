@@ -1,10 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
   --primary-color: #987cd171;
-  --seconday-color: #5805ffb1;
+  --secondary-color: #5805ffb1;
   --hover-color: #b28ef995;
-  /* --primary-color: #acd7e0;
-  --seconday-color: #33C8E6;
+  scrollbar-color: #090002 rgba(255, 0, 0, 0) !important;
+  --card-color: #6f2df391
+    /* --primary-color: #acd7e0;
+  --secondary-color: #33C8E6;
   --hover-color: #95d8e5ea; */
 }
 
@@ -12,6 +14,17 @@ body {
   background-color: var(--primary-color);
 }
 
+
 .firebase-emulator-warning {
   display: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
