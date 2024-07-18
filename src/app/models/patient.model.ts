@@ -1,5 +1,6 @@
 export class Patient {
   id?: string;
+  photo?: string;
   age: number;
   bloodtype: string;
   doctor: string;
@@ -26,7 +27,8 @@ export class Patient {
     medicalcondition: string[],
     medication: { morning: string[], noon: string[], night: string[] },
     name: string,
-    id?: string
+    id?: string,
+    photo?: string
   ) {
     this.id = id;
     this.age = age;
@@ -39,5 +41,6 @@ export class Patient {
     this.medicalcondition = medicalcondition;
     this.medication = medication;
     this.name = name;
+    this.photo = photo;
   }
 }

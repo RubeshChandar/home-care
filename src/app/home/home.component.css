@@ -1,12 +1,30 @@
 .cards {
-  height: 200px;
+  height: 300px;
   background-color: var(--card-color);
   border-radius: 20px;
   padding: 10px;
   transition: all 0.5s;
 }
 
+.cards img {
+  width: 100%;
+  border-radius: 10px;
+}
+
 .cards:hover {
-  cursor: pointer;
-  box-shadow: 3px 3px 5px 1px #6112ffd9;
+  box-shadow: 4px 4px 8px 2px #6112ffd9;
+}
+
+#name {
+  font-weight: bold;
+  font-size: 1.3em;
+  color: white;
+}
+
+p {
+  font-weight: bold;
+}
+
+.white {
+  color: white;
 }
