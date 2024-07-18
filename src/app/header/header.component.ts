@@ -27,5 +27,10 @@ export class HeaderComponent {
       this.hide = false;
       this.scroll = verticalOffset;
     }
+
+    if (verticalOffset < 10) {
+      this.hide = false;
+      this.scroll = verticalOffset;
+    }
   }
 }
