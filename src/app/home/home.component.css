@@ -28,3 +28,9 @@ p {
 .white {
   color: white;
 }
+
+@media(min-width:1900px) {
+  img {
+    width: 80% !important;
+  }
+}
