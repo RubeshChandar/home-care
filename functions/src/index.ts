@@ -1,19 +1,25 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
 
-import {onRequest} from "firebase-functions/v2/https";
-import * as logger from "firebase-functions/logger";
+const app = admin.initializeApp();
 
-// Start writing functions
-// https://firebase.google.com/docs/functions/typescript
+export const randomNumber = functions.https.onRequest((req, res) => {
+  // const number = Math.round(Math.random() * 100);
+  res.send("Hello World");
+});
 
-// export const helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+export const ruby = functions.https.onRequest((req, res) => {
+  res.status(200).send(req.query);
+});
+
+export const sayHello = functions.https.onCall((data, context) => {
+  return context.auth;
+});
+
+export const deleteImages = functions.firestore.document("/{collection}/{id}")
+  .onDelete((snap, context) => {
+    const path = `${context.params.collection}/${context.params.id}.jpg`;
+    console.log(path + " deleted.!");
+    const bucket = app.storage().bucket();
+    return bucket.file(path).delete();
+  });
