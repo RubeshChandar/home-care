@@ -1,0 +1,42 @@
+img {
+  width: 100%;
+  border: 2px solid black;
+  border-radius: 10px;
+}
+
+.name {
+  font-size: 3em;
+  font-weight: bolder;
+  color: white;
+  text-align: center;
+  text-shadow: 6px 6px 12px black;
+}
+
+th,
+td {
+  border: 2px solid var(--secondary-color);
+  border-radius: 10px;
+  padding: 10px;
+  background-color: whitesmoke;
+}
+
+.table {
+  font-size: 1.2em;
+  border-collapse: separate;
+  border-spacing: 15px 10px;
+  text-align: center;
+}
+
+th {
+  background-color: black;
+  color: rgb(255, 200, 0);
+  padding: 1px !important;
+}
+
+th:hover,
+td:hover {
+  background-color: var(--secondary-color);
+  color: white;
+  box-shadow: 0px 0px 8px 5px;
+  transform: scale(1.02);
+}

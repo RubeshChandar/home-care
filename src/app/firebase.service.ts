@@ -7,7 +7,8 @@ import { BehaviorSubject, map } from 'rxjs';
   providedIn: 'root'
 })
 export class FirebaseService {
-  patient = new BehaviorSubject<Patient[]>([]);
+  patientsList: Patient[] = [];
+  patientSubject = new BehaviorSubject<Patient[]>([]);
 
   constructor(private firestore: AngularFirestore) {
 
@@ -25,10 +26,15 @@ export class FirebaseService {
         })
       ).subscribe(
         data => {
-          this.patient.next(data)
+          this.patientsList = data;
+          this.patientSubject.next(this.patientsList)
         }
       )
 
+  }
+
+  getPatient(id?: string) {
+    return this.patientSubject.subscribe()
   }
 
 }

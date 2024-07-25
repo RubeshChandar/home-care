@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="col-md-4 mt-5 mx-5">
+    <img [src]="patient?.photo" alt="">
+  </div>
+  <div class="col-md-7">
+    <p class="name">{{patient?.name | uppercase}}</p>
+    <table class="table">
+      <tr>
+        <th>E-mail</th>
+        <td>{{patient?.email}}</td>
+      </tr>
+      <tr>
+        <th>Doctor</th>
+        <td>{{patient?.doctor}}</td>
+      </tr>
+      <tr>
+        <th>Hospital</th>
+        <td>{{patient?.hospital}}</td>
+      </tr>
+      <tr>
+        <th>Blood Type</th>
+        <td>{{patient?.bloodtype}}</td>
+      </tr>
+      <tr>
+        <th>Age</th>
+        <td>{{patient?.age}}</td>
+      </tr>
+      <tr>
+        <th>Sex</th>
+        <td>{{patient?.gender}}</td>
+      </tr>
+      <tr>
+        <th>Insurance</th>
+        <td>{{patient?.insuranceprovider}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
