@@ -9,10 +9,16 @@ import { BehaviorSubject, map } from 'rxjs';
 export class FirebaseService {
   patientsList: Patient[] = [];
   patientSubject = new BehaviorSubject<Patient[]>([]);
+  isLoadingSubject = new BehaviorSubject<boolean>(false);
 
   constructor(private firestore: AngularFirestore) {
+    this.getPatients();
+  }
 
-    firestore.collection("patient").valueChanges({ idField: 'id' })
+  async getPatients() {
+    this.isLoadingSubject.next(true);
+
+    this.firestore.collection("patient").valueChanges({ idField: 'id' })
       .pipe(
         map(data => {
           return data.map(
@@ -27,14 +33,10 @@ export class FirebaseService {
       ).subscribe(
         data => {
           this.patientsList = data;
-          this.patientSubject.next(this.patientsList)
+          this.patientSubject.next(this.patientsList);
+          this.isLoadingSubject.next(false);
         }
       )
-
-  }
-
-  getPatient(id?: string) {
-    return this.patientSubject.subscribe()
   }
 
 }

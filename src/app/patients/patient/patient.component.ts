@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PatientComponent {
   patientId: string = "";
-  patient?: Patient;
+  patient!: Patient;
   subscriptions = new Subscription();
 
   constructor(private route: ActivatedRoute, private firebaseService: FirebaseService) {
@@ -33,6 +33,14 @@ export class PatientComponent {
       )
     )
   }
+
+  // ngDoCheck() {
+  //   if (this.patient === undefined) {
+  //     this.firebaseService.isLoadingSubject.next(true);
+  //   } else {
+  //     this.firebaseService.isLoadingSubject.next(false);
+  //   }
+  // }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();

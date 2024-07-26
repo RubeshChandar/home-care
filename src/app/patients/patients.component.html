@@ -1,15 +1,11 @@
 <div class="row g-5">
   @for (patient of patients; track patient.id) {
-  <div class="col-lg-4">
-    <div class="cards row">
-      <div class="col-lg-6 align-self-center">
-        <img [src]="patient.photo" alt="No image">
-      </div>
-      <div class="col-lg-6 align-self-center text-center">
-        <p id="name">{{patient.name}}</p>
-        <p>Doctor : <span class="white">{{patient.doctor}}</span></p>
-        <p>Carer Assigned : <span class="white"> No</span></p>
-        <button class="btn btn-warning" (click)="details(patient.id!)">View Details</button>
+  <div class="col-lg-3">
+    <div class="cards" (click)="details(patient.id!)">
+      <img [src]="patient.photo" alt="Avatar">
+      <div class="det">
+        <h4><b>{{patient.name}}</b></h4>
+        <p>Carer Assigned : <span style="color:white"> No</span></p>
       </div>
     </div>
   </div>
