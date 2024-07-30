@@ -1,9 +1,9 @@
 <div class="row cards">
-  <div class="col-md-4 mt-5 mb-5 mx-5">
-    <img [src]="patient?.photo" alt="">
+  <div class="col-md-4 mx-5">
+    <img [src]="patient?.photo" alt="Image">
+    <p class="name">{{patient?.name | uppercase}}</p>
   </div>
   <div class="col-md-6">
-    <p class="name">{{patient?.name | uppercase}}</p>
     <table class="table">
       <tr>
         <th>E-mail</th>
@@ -34,5 +34,38 @@
         <td>{{patient?.insuranceprovider}}</td>
       </tr>
     </table>
+  </div>
+</div>
+
+<ul class="list-group list-group-horizontal d-flex justify-content-center">
+  <li class="list-group-item h">Medical Condition</li>
+  @for (condition of patient?.medicalcondition; track condition) {
+  <li class="list-group-item">{{condition}}</li>
+  }
+</ul>
+
+
+<div class="row head">
+  <div class="col-md-3 heads">Timing</div>
+  <div class="col-md-3">Morning</div>
+  <div class="col-md-3">Afternoon</div>
+  <div class="col-md-3">Night</div>
+</div>
+<div class="row med">
+  <div class="col-md-3 meds">Medications Prescribed</div>
+  <div class="col-md-3">
+    @for (medicine of patient?.medication?.morning; track medicine) {
+    {{medicine}} <br>
+    }
+  </div>
+  <div class="col-md-3">
+    @for (medicine of patient?.medication?.noon; track medicine) {
+    {{medicine}} <br>
+    }
+  </div>
+  <div class="col-md-3">
+    @for (medicine of patient?.medication?.night; track medicine) {
+    {{medicine}} <br>
+    }
   </div>
 </div>
