@@ -1,9 +1,11 @@
 <div class="row cards">
   <div class="col-md-4 mx-5">
-    <img [src]="patient?.photo" alt="Image">
-    <p class="name">{{patient?.name | uppercase}}</p>
+    <div class="img-cont">
+      <img [src]="patient?.photo" alt="Image">
+    </div>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-6 align-self-center">
+    <p class="name">{{patient?.name | uppercase}}</p>
     <table class="table">
       <tr>
         <th>E-mail</th>
@@ -38,12 +40,11 @@
 </div>
 
 <ul class="list-group list-group-horizontal d-flex justify-content-center">
-  <li class="list-group-item h">Medical Condition</li>
-  @for (condition of patient?.medicalcondition; track condition) {
+  <li class="list-group-item h">Medical Condition(s)</li>
+  @for (condition of patient?.medicalcondition; track $index) {
   <li class="list-group-item">{{condition}}</li>
   }
 </ul>
-
 
 <div class="row head">
   <div class="col-md-3 heads">Timing</div>
@@ -54,18 +55,20 @@
 <div class="row med">
   <div class="col-md-3 meds">Medications Prescribed</div>
   <div class="col-md-3">
-    @for (medicine of patient?.medication?.morning; track medicine) {
+    @for (medicine of patient?.medication?.morning; track $index) {
     {{medicine}} <br>
     }
   </div>
   <div class="col-md-3">
-    @for (medicine of patient?.medication?.noon; track medicine) {
+    @for (medicine of patient?.medication?.noon; track $index) {
     {{medicine}} <br>
     }
   </div>
   <div class="col-md-3">
-    @for (medicine of patient?.medication?.night; track medicine) {
+    @for (medicine of patient?.medication?.night; track $index) {
     {{medicine}} <br>
     }
   </div>
 </div>
+
+<br>
