@@ -1,5 +1,6 @@
 input {
   outline: none;
+  border: none;
 }
 
 .search {
@@ -14,10 +15,12 @@ input {
   background-position: 2% 10px;
   background-size: 35px;
   transition: 0.5s;
+  box-shadow: 4px 5px 6px 0px grey;
 }
 
 .search:focus {
-  border: 3px solid var(--secondary-color);
+  border: 3px solid var(--primary-color);
+  box-shadow: 4px 5px 6px 0px var(--secondary-color);
   background-image: url("https://img.icons8.com/?size=100&id=12773&format=png&color=000000");
 }
 

@@ -16,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
     { provide: USE_AUTH_EMULATOR, useValue: environment.useEmulators ? ['http://localhost', 9099] : undefined },
     { provide: USE_FIRESTORE_EMULATOR, useValue: environment.useEmulators ? ['localhost', 8080] : undefined },
-    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined }, provideAnimationsAsync(),
+    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.useEmulators ? ['localhost', 5001] : undefined },
+    provideAnimationsAsync(),
   ]
 };

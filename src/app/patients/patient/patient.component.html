@@ -71,4 +71,12 @@
   </div>
 </div>
 
+<a class="float" (click)="requestToggle=!requestToggle" [class.x]="requestToggle">
+  <i class="fa fa-plus my-float"></i>
+</a>
+
+@if (requestToggle) {
+<app-date-time-picker (dandT)="check($event)" />
+}
 <br>
+<div id="snackbar" #snack [style.background-color]="color" [class.show]="showSnack"> {{message}}</div>

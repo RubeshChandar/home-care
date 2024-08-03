@@ -1,0 +1,59 @@
+<div class="backdrop">
+  <div class="request">
+    <h2 style="color: white; margin-bottom: 25px;">Pick a time slot</h2>
+
+    <div class="row mb-3">
+      <div class="col-md-5 mt-3">
+        <h3> Select the date</h3>
+      </div>
+      <div class="col-md-6">
+        <input type="date" [(ngModel)]="selectedDate">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+
+      <div class="col-md-5 mt-3">
+        <h3> Select the time range</h3>
+      </div>
+
+      <div class="col-md-3">
+        <select [(ngModel)]="selectedStartTime" (change)="onStartTimeChange()">
+          @for (time of startTimes; track $index) {
+          <option [value]="time">{{ time }}</option>
+          }
+        </select>
+      </div>
+      <div class="col-md-1 mt-2">
+        <h3>To</h3>
+      </div>
+      <div class="col-md-3">
+        <select [(ngModel)]="selectedEndTime" [disabled]="!selectedStartTime">
+          @for (time of endTimes; track $index) {
+          <option [value]="time">{{ time }}</option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-5 mt-3">
+        <h3> Notes (Optional) </h3>
+      </div>
+
+      <div class="col-md-6">
+        <textarea placeholder="Write any additional notes here" [(ngModel)]="notes" class="txt" rows="5"></textarea>
+      </div>
+    </div>
+
+    @if (warn) {
+    <p class="warn">
+      <span>
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Please select a valid Date and Time range !!!
+      </span>
+    </p>
+    }
+    <button class="btn btn-warning" (click)="onSubmit()" style="margin-top: 10px;">Submit</button>
+  </div>
+</div>

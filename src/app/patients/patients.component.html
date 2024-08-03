@@ -3,6 +3,7 @@
     <input type="text" class="search" (keyup)="search($event)" [placeholder]="ph" />
   </div>
 </div>
+@if (patients.length>0) {
 <div class="row g-5">
   @for (patient of patients; track patient.id) {
   <div class="col-lg-3">
@@ -16,3 +17,8 @@
   </div>
   }
 </div>
+} @else {
+<div class="row">
+  <h3 style="text-align: center;">No Patients found..</h3>
+</div>
+}
