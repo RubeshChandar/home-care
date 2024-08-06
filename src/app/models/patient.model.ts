@@ -15,6 +15,7 @@ export class Patient {
     night: string[];
   };
   name: string;
+  assigned?: boolean;
 
   constructor(
     age: number,
@@ -28,7 +29,8 @@ export class Patient {
     medication: { morning: string[], noon: string[], night: string[] },
     name: string,
     id?: string,
-    photo?: string
+    photo?: string,
+    assigned?: boolean
   ) {
     this.id = id;
     this.age = age;
@@ -42,5 +44,6 @@ export class Patient {
     this.medication = medication;
     this.name = name;
     this.photo = photo;
+    this.assigned = assigned;
   }
 }

@@ -74,16 +74,3 @@ export const addRequest = functions.https.onCall((data, context) => {
     return "Failure";
   });
 });
-
-// export const checker = functions.https.onRequest((req, res) => {
-//   admin.firestore().collection(`requests/${req.query.date}/unassigned`).doc(req.query.id as string)
-//     .get().then((items) => {
-//       const unsorted = items.data()?.requested as tRequest[];
-//       const sorted = unsorted.sort((a, b) => {
-//         if (a.startTime > b.startTime) return 1;
-//         if (a.startTime < b.startTime) return -1;
-//         return 0;
-//       });
-//       res.send(sorted);
-//     });
-// });

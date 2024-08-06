@@ -18,7 +18,7 @@ export class PatientComponent {
   patientId: string = "";
   patient?: Patient;
   subscriptions = new Subscription();
-  requestToggle = true;
+  requestToggle = false;
   showSnack = false;
   message = "";
   color = "black";
@@ -63,7 +63,6 @@ export class PatientComponent {
             this.snackIT("Successfully added the request", "#8CBA44");
             break;
           case "Overlap":
-            console.log("Overlap");
             this.snackIT("Overlap so request not added", "#fb8828");
             break;
           case "Failure":

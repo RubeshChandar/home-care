@@ -3,6 +3,22 @@
     <input type="text" class="search" (keyup)="search($event)" [placeholder]="ph" />
   </div>
 </div>
+
+<div class="row my-5">
+  <div class="col-md-3 align-self-center">
+    <input type="checkbox" id="check" (change)="showAllPatients()" [checked]="allPatientsCheckbox">
+    <label for="check">Show all patients record</label>
+  </div>
+  <div class="col-md-5 text-center">
+    <input type="date" class="date" [value]="date" [(ngModel)]="date" (change)="getRequests()"
+      [disabled]="allPatientsCheckbox">
+  </div>
+  <div class="col-md-4 align-self-center">
+    <input type="checkbox" id="unassigned" (change)="showUnassignedOnly($event)" [disabled]="allPatientsCheckbox">
+    <label for="unassigned">Show Only unassigned</label>
+  </div>
+</div>
+
 @if (patients.length>0) {
 <div class="row g-5">
   @for (patient of patients; track patient.id) {
@@ -11,7 +27,14 @@
       <img [src]="patient.photo" alt="Avatar">
       <div class="det">
         <h4><b>{{patient.name}}</b></h4>
-        <p>Carer Assigned : <span style="color:white"> No</span></p>
+        @if (!allPatientsCheckbox) {
+        <p>Carer Assigned :
+          @if(patient.assigned){
+          <span style="color: green;">Yes</span>
+          } @else {
+          <span style="color: red;">No</span>
+          }
+        </p>}
       </div>
     </div>
   </div>
