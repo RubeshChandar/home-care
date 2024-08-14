@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../../firebase.service';
 import { Patient } from '../../models/patient.model';
@@ -6,15 +6,16 @@ import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { DateTimePickerComponent } from "../../shared/date-time-picker/date-time-picker.component";
 import { Requests } from '../../models/requests.model';
+import { RequestsComponent } from "../requests/requests.component";
 
 @Component({
   selector: 'app-patient',
   standalone: true,
-  imports: [CommonModule, DateTimePickerComponent],
+  imports: [CommonModule, DateTimePickerComponent, RequestsComponent],
   templateUrl: './patient.component.html',
   styleUrl: './patient.component.css'
 })
-export class PatientComponent {
+export class PatientComponent implements OnInit {
   patientId: string = "";
   patient?: Patient;
   subscriptions = new Subscription();
@@ -31,6 +32,8 @@ export class PatientComponent {
         this.patientId = param['id']
       })
     )
+
+    // route.queryParams.subscribe(d => console.log(d['date']))
   }
 
   ngOnInit() {

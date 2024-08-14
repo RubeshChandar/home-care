@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "dev" : "firebase emulators:start --import=./firebaseExport --export-on-exit=./firebaseExport"
+    "dev": "firebase emulators:start --import=./firebaseExport --export-on-exit=./firebaseExport"
   },
   "private": true,
   "dependencies": {

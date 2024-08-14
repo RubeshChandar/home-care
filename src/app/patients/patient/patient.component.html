@@ -75,6 +75,9 @@
   <i class="fa fa-plus my-float"></i>
 </a>
 
+<div class="mt-5"></div>
+<app-requests [patientID]="patientId"></app-requests>
+
 @if (requestToggle) {
 <app-date-time-picker (dandT)="check($event)" />
 }

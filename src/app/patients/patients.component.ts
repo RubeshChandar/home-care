@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FirebaseService } from '../firebase.service';
 import { Patient } from '../models/patient.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms'
 import { map } from 'rxjs';
 
 @Component({
   selector: 'app-patients',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './patients.component.html',
   styleUrl: './patients.component.css',
 })
@@ -19,11 +19,7 @@ export class PatientsComponent {
   ph = "Please enter the name or email address to search...";
   date: string = "";
 
-  constructor(
-    private firebaseService: FirebaseService,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) {
+  constructor(private firebaseService: FirebaseService) {
     this.firebaseService.patientSubject.subscribe(p => {
       this.patients = p;
       this.patientsCopy = [...this.patients];
@@ -31,17 +27,12 @@ export class PatientsComponent {
     this.date = this.getFormattedToday();
   }
 
-
   getFormattedToday(): string {
     const date = new Date();
     const year = date.getFullYear();
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
-  }
-
-  details(id: string) {
-    this.router.navigate([`./${id}`], { relativeTo: this.route });
   }
 
   search(event: Event) {
@@ -81,7 +72,7 @@ export class PatientsComponent {
   }
 
   resetPatients() {
-    this.patients = this.firebaseService.patientsList;
+    this.patients = this.firebaseService.patientSubject.value;
   }
 
   showAllPatients() {

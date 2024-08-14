@@ -1,0 +1,47 @@
+<div class="carousel-container">
+  @if (unAssignedRequests!.length===0) {
+  <h2 class="noRequests">There are no unassigned requests</h2>
+  } @else {
+  <h3 class="carousel-heading">Unassigned Requests</h3>
+  <button class="arrow left" (click)="scroll(-1)">&#8249;</button>
+  <div class="carousel-wrapper">
+    <div class="carousel" [style.transform]="getTransform()">
+      @for (req of unAssignedRequests; track $index) {
+      <div class="card">
+        <p class="tag" [style.backgroundColor]="getColor(req.date)">{{compareDates(req.date)}}</p>
+        <h4 style="color: white;">{{ req.date|dateFormat }}</h4>
+        <p style="font-weight: bold;">{{req.startTime|timeFormat }} - {{req.endTime |timeFormat}}</p>
+        <p class="notes">{{ (req.notes!=="")?req.notes: "No additional notes" }}</p>
+        <button class="btn btn-primary mb-1" (click)="assign(req.date)">Assign carer</button>
+      </div>
+      }
+    </div>
+  </div>
+  <button class="arrow right" (click)="scroll(1)">&#8250;</button>
+  }
+</div>
+<br>
+<div class="carousel-container">
+  @if (assignedRequests!.length===0) {
+  <h2 class="noRequests">No requests has been assigned yet.!</h2>
+  } @else {
+  <!-- <h3 class="carousel-heading">Assigned Requests</h3> -->
+  <button class="arrow left" (click)="scroll(-1)">&#8249;</button>
+  <div class="carousel-wrapper">
+    <div class="carousel" [style.transform]="getTransform()">
+      @for (req of assignedRequests; track $index) {
+      <div class="card card-assigned">
+        <p class="tag" [style.backgroundColor]="getColor(req.date)">{{compareDates(req.date)}}</p>
+        <h4 style="color: white;">{{ req.date }}</h4>
+        <p style="font-weight: bold;">{{req.startTime|timeFormat }} - {{req.endTime |timeFormat}}</p>
+        <p> Assigned to <span style="font-weight: bold;">{{req.carerName}}</span></p>
+        <p class="notes">{{ (req.notes!=="")?req.notes: "No additional notes" }}</p>
+        <p class="notes">{{ (req.carerNote!=="")?req.carerNote: "No Carer notes" }}</p>
+        <button class="btn btn-warning mb-1">Remove carer</button>
+      </div>
+      }
+    </div>
+  </div>
+  <button class="arrow right" (click)="scroll(1)">&#8250;</button>
+  }
+</div>

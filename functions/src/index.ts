@@ -18,6 +18,13 @@ function timeStringToNumber(time: string): number {
   return hours + minutes / 60;
 }
 
+// eslint-disable-next-line require-jsdoc
+function getDayName(dateString: string): string {
+  const date = new Date(dateString);
+  const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+  return daysOfWeek[date.getDay()];
+}
+
 export const deleteImages = functions.firestore.document("/{collection}/{id}")
   .onDelete((snap, context) => {
     const path = `${context.params.collection}/${context.params.id}.jpg`;
@@ -67,6 +74,7 @@ export const addRequest = functions.https.onCall((data, context) => {
       ref.update({ requested: FieldValue.arrayUnion(formartedData) });
     }
   }).then(() => {
+    admin.firestore().collection(`patient/${data.id}/dates`).doc(data.date).create({});
     console.debug("Operation Done!!!!");
     return message;
   }).catch((e) => {
@@ -74,3 +82,15 @@ export const addRequest = functions.https.onCall((data, context) => {
     return "Failure";
   });
 });
+
+export const checkAvailability = functions.https.onCall((data, context) => {
+  console.log(getDayName(data.date));
+});
+
+export const addAvailability = functions.firestore
+  .document("/requests/{date}")
+  .onCreate(async (snap, context) => {
+    console.log("New document created:", context.params.date);
+
+    // Perform any additional logic here, like updating other collections, sending notifications, etc.
+  });

@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Patient } from './models/patient.model';
 import { BehaviorSubject, combineLatest, map } from 'rxjs';
-import { Requests } from './models/requests.model';
+import { Patient } from './models/patient.model';
+import { Assigned, Requests, UnAssigned } from './models/requests.model';
 import { AngularFireFunctions } from '@angular/fire/compat/functions';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class FirebaseService {
-  patientsList: Patient[] = [];
   patientSubject = new BehaviorSubject<Patient[]>([]);
   isLoadingSubject = new BehaviorSubject<boolean>(false);
 
@@ -35,8 +33,7 @@ export class FirebaseService {
         })
       ).subscribe(
         data => {
-          this.patientsList = data;
-          this.patientSubject.next(this.patientsList);
+          this.patientSubject.next(data);
           this.isLoadingSubject.next(false);
         }
       )
@@ -55,6 +52,40 @@ export class FirebaseService {
     return combineLatest([col1$, col2$]).pipe(map(([ids1, ids2]) => {
       return { "unassigned": ids1, "assigned": ids2 }
     }))
+  }
+
+  private requestHelper(date: string, id: string, assigned: boolean) {
+    return this.firestore.collection(`requests/${date}/${(assigned) ? 'assigned' : 'unassigned'}`).doc(id).get()
+      .pipe(
+        map(data => {
+          if (data.data() === undefined) return
+          return (data.data() as { 'requested': [Requests] }).requested
+            .map(indReq => {
+              return ({ ...indReq, assigned: assigned, date: date });
+            })
+        })
+      )
+  }
+
+  getRequestsForOnePatients(id: string, assigned: boolean) {
+    return this.firestore.collection(`patient/${id}/dates`).valueChanges({ idField: 'date' })
+      .pipe(map(async result => {
+        let temp: UnAssigned[] | Assigned[] = []
+        return await new Promise<UnAssigned[] | Assigned[]>(resolve => {
+          result.forEach(data => {
+            this.requestHelper(data.date, id, assigned)
+              .subscribe(data => {
+                data?.forEach((d) => temp.push(d));
+                resolve(temp);
+              })
+          })
+        })
+      })
+      )
+  }
+
+  getAvailability(date: string) {
+    this.functions.httpsCallable("checkAvailability")({ date: date }).subscribe()
   }
 
 }

@@ -23,14 +23,14 @@
 <div class="row g-5">
   @for (patient of patients; track patient.id) {
   <div class="col-lg-3">
-    <div class="cards" (click)="details(patient.id!)">
+    <div class="cards" [routerLink]="[patient.id]">
       <img [src]="patient.photo" alt="Avatar">
       <div class="det">
         <h4><b>{{patient.name}}</b></h4>
         @if (!allPatientsCheckbox) {
         <p>Carer Assigned :
           @if(patient.assigned){
-          <span style="color: green;">Yes</span>
+          <span style="color: #10ffa1;">Yes</span>
           } @else {
           <span style="color: red;">No</span>
           }

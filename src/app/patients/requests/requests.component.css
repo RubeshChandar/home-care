@@ -1,0 +1,93 @@
+.carousel-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--secondary-color);
+  padding: 40px 10px;
+  border-radius: 20px;
+}
+
+.carousel-wrapper {
+  overflow: hidden;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.carousel-heading {
+  color: white;
+  text-align: center;
+  width: 30%;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card {
+  flex: 0 0 25%;
+  /* Each card takes up 1/3 of the container */
+  box-sizing: border-box;
+  padding: 20px;
+  background-color: #fe5656;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+  text-align: center;
+  overflow: hidden;
+}
+
+.card-assigned {
+  flex: 0 0 30%;
+  background-color: #29c600d4;
+}
+
+.notes {
+  background-color: #ffffffcf;
+  padding: 5px 15px;
+  height: 75px;
+  overflow: scroll;
+  align-content: center;
+  border-radius: 7px;
+}
+
+.arrow {
+  background-color: #ffffffbe;
+  color: black;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 40px;
+  border-radius: 10%;
+}
+
+.arrow.left {
+  margin-right: 10px;
+}
+
+.arrow.right {
+  margin-left: 10px;
+}
+
+.arrow:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.noRequests {
+  text-align: center;
+  color: white;
+  width: 100%;
+}
+
+.tag {
+  position: absolute;
+  top: 20px;
+  left: -20px;
+  font-size: 0.8em;
+  transform: rotate(-45deg);
+  background-color: yellow;
+  width: 100px;
+  font-weight: bold;
+}

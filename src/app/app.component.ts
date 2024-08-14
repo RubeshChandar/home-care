@@ -11,13 +11,18 @@ import { AngularFireFunctionsModule } from '@angular/fire/compat/functions';
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  imports: [HeaderComponent, RouterOutlet, LoadingSpinnerComponent, AngularFireFunctionsModule]
+  imports: [
+    HeaderComponent,
+    RouterOutlet,
+    LoadingSpinnerComponent,
+    AngularFireFunctionsModule,
+  ]
 })
 export class AppComponent {
   title = 'home-care';
   isLoading = false;
 
-  constructor(private firebaseService: FirebaseService) {
+  constructor(firebaseService: FirebaseService) {
     firebaseService.isLoadingSubject.subscribe(
       bol => this.isLoading = bol
     )
