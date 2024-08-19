@@ -20,12 +20,13 @@ import { CommaSeparatedPipe } from "../../shared/comma-separated.pipe";
 export class RequestsComponent implements OnInit, OnDestroy {
   @Input() patientID!: string;
   @Input() patient?: Patient;
+  @Input() snack!: Function;
   unAssignedRequests?: UnAssigned[] = [];
   assignedRequests?: Assigned[] = [];
   carersList?: Carer[] = [];
   unSubscribe: Subject<void> = new Subject();
   openAssignDialog = false;
-  viewDate = "";
+  selectedReq?: UnAssigned;
 
   currentIndex: number = 0;
   itemsPerView: number = 4; // Number of cards per view
@@ -100,8 +101,8 @@ export class RequestsComponent implements OnInit, OnDestroy {
     }
   }
 
-  assign(req: UnAssigned) {
-    this.viewDate = req.date;
+  openAssignment(req: UnAssigned) {
+    this.selectedReq = req;
     this.firebaseServices.isLoadingSubject.next(true);
     this.openAssignDialog = true;
     this.firebaseServices.getAvailability({ ...req, id: this.patientID })
@@ -112,8 +113,18 @@ export class RequestsComponent implements OnInit, OnDestroy {
       })
   }
 
+  assign(carer: Carer) {
+    this.firebaseServices.assignCarer(carer, this.patientID, this.selectedReq!)
+      .subscribe(e => {
+        if (e === "Done") {
+          this.openAssignDialog = false;
+          this.snack(`${carer.name} has been successfully assigned`, "Green")
+        }
+      })
+  }
+
   getCarerSchedule(carer: Carer) {
-    const date = new Date(this.viewDate);
+    const date = new Date(this.selectedReq!.date);
     const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
     const schedule = carer.schedule[daysOfWeek[date.getDay()] as keyof Schedule];
     return { "start": schedule![0], "end": schedule![1] }

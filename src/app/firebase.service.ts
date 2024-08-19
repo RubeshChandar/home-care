@@ -4,6 +4,7 @@ import { BehaviorSubject, combineLatest, map } from 'rxjs';
 import { Patient } from './models/patient.model';
 import { Assigned, Requests, UnAssigned } from './models/requests.model';
 import { AngularFireFunctions } from '@angular/fire/compat/functions';
+import { Carer } from './models/carer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,10 @@ export class FirebaseService {
         })
     })
     return specialists;
+  }
+
+  assignCarer(carer: Carer, patientID: string, req: UnAssigned) {
+    return this.functions.httpsCallable("assignCarer")({ "carerID": carer.id, "carerName": carer.name, "patientID": patientID, ...req })
   }
 
 }

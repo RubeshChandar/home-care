@@ -12,7 +12,7 @@
         <h4 style="color: white;">{{ req.date|dateFormat }}</h4>
         <p style="font-weight: bold;">{{req.startTime|timeFormat }} - {{req.endTime |timeFormat}}</p>
         <p class="notes">{{ (req.notes!=="")?req.notes: "No additional notes" }}</p>
-        <button class="btn btn-primary mb-1" (click)="assign(req)">Choose carer</button>
+        <button class="btn btn-primary mb-1" (click)="openAssignment(req)">Choose carer</button>
       </div>
       }
     </div>
@@ -65,7 +65,9 @@
               to <b>{{getCarerSchedule(carer).end|timeFormat}}</b>
             </p>
             <small>From <b>{{carer.location.district}}, {{carer.location.postcode.split(" ")[0]}}</b></small>
-            <br>Matching skills <b style="color: green;">{{carer.specialisation|commaSeparated}}</b>
+            <br>Matching skills <b style="color: green;">{{carer.specialisation|commaSeparated}}</b><br>
+            <button class="btn btn-primary mt-1" (click)="assign(carer)">Assign <b>{{carer.name.split("
+                ")[0]}}</b></button>
           </div>
           <small><span class="badge bg-primary">{{carer.matchPercent?carer.matchPercent:0}} %</span></small>
         </div>

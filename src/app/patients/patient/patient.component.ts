@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FirebaseService } from '../../firebase.service';
 import { Patient } from '../../models/patient.model';
@@ -23,6 +23,9 @@ export class PatientComponent implements OnInit {
   showSnack = false;
   message = "";
   color = "black";
+  @Output() callbackSnack = (message: string, color: string) => {
+    this.snackIT(message, color)
+  }
 
   constructor(private route: ActivatedRoute,
     private firebaseService: FirebaseService) {
@@ -32,8 +35,6 @@ export class PatientComponent implements OnInit {
         this.patientId = param['id']
       })
     )
-
-    // route.queryParams.subscribe(d => console.log(d['date']))
   }
 
   ngOnInit() {

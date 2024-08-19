@@ -80,7 +80,7 @@
 </a>
 
 <div class="mt-5"></div>
-<app-requests [patientID]="patientId" [patient]="patient"></app-requests>
+<app-requests [patientID]="patientId" [patient]="patient" [snack]="callbackSnack"></app-requests>
 
 @if (requestToggle) {
 <app-date-time-picker (dandT)="check($event)" />

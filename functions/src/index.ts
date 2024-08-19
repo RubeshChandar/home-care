@@ -3,6 +3,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import { getAvailability, isTimeOutsideRange } from "./helperFunctions";
+import { FieldValue } from "firebase-admin/firestore";
 
 const app = admin.initializeApp();
 export const firestore = admin.firestore();
@@ -63,3 +64,54 @@ export const getAvailableCarers = functions.https.onCall(async (unassignedReques
   return availableCarers;
 });
 
+export const assignCarer = functions.https.onCall(async (data) => {
+  const ref = firestore.collection(`requests/${data.date}/schedule`).doc(data.carerID);
+  const refData = (await ref.get()).data();
+
+  if (refData?.booked === undefined || refData.booked.length < 0) {
+    await ref.update({
+      "booked": [
+        { startTime: data.startTime, endTime: data.endTime, patient: data.patientID },
+      ],
+    });
+  } else {
+    await ref.update({ "booked": FieldValue.arrayUnion({ startTime: data.startTime, endTime: data.endTime, patient: data.patientID }) });
+  }
+
+  const refAssigned = firestore.collection(`requests/${data.date}/assigned`).doc(data.patientID);
+  const refAssignedData = (await refAssigned.get()).data();
+
+  if (refAssignedData?.requested === undefined || refAssignedData.requested.length < 0) {
+    await refAssigned.set({
+      "requested": [{ carerID: data.carerID, carerName: data.carerName, startTime: data.startTime, endTime: data.endTime, notes: data.notes, carerNote: "" }],
+    });
+  } else {
+    await refAssigned.update({
+      "requested": FieldValue.arrayUnion({ carerID: data.carerID, carerName: data.carerName, startTime: data.startTime, endTime: data.endTime, notes: data.notes, carerNote: "" }),
+    });
+  }
+
+  const refUnassigned = firestore.collection(`requests/${data.date}/unassigned`).doc(data.patientID);
+  const refUnassignedData = (await refUnassigned.get()).data()!["requested"];
+
+  const index = refUnassignedData.findIndex(
+    (obj: any) => obj.endTime === data.endTime &&
+      obj.notes === data.notes &&
+      obj.startTime === data.startTime
+  );
+
+  // Check if the object was found and delete it
+  if (index !== -1) {
+    refUnassignedData.splice(index, 1);
+    refUnassigned.update({ requested: refUnassignedData });
+  } else {
+    console.log("Requested data not found in unassigned!!!");
+  }
+
+  return "Done";
+});
+
+export const removeCarer = functions.https.onCall(async (data) => {
+  // write the function to reverse the assignment
+  console.log();
+});
