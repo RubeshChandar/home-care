@@ -130,4 +130,9 @@ export class RequestsComponent implements OnInit, OnDestroy {
     return { "start": schedule![0], "end": schedule![1] }
   }
 
+  deleteAssignment(req: Assigned) {
+    this.firebaseServices.deassignCarer({ ...req, patientID: this.patientID })
+      .subscribe()
+  }
+
 }

@@ -2,7 +2,7 @@
 /* eslint-disable object-curly-spacing */
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { getAvailability, isTimeOutsideRange } from "./helperFunctions";
+import { deleteArrayElement, getAvailability, isTimeOutsideRange } from "./helperFunctions";
 import { FieldValue } from "firebase-admin/firestore";
 
 const app = admin.initializeApp();
@@ -69,7 +69,9 @@ export const assignCarer = functions.https.onCall(async (data) => {
   const refData = (await ref.get()).data();
 
   if (refData?.booked === undefined || refData.booked.length < 0) {
-    await ref.update({
+    await ref.set({
+      "startTime": refData!.startTime,
+      "endTime": refData!.endTime,
       "booked": [
         { startTime: data.startTime, endTime: data.endTime, patient: data.patientID },
       ],
@@ -94,24 +96,41 @@ export const assignCarer = functions.https.onCall(async (data) => {
   const refUnassigned = firestore.collection(`requests/${data.date}/unassigned`).doc(data.patientID);
   const refUnassignedData = (await refUnassigned.get()).data()!["requested"];
 
-  const index = refUnassignedData.findIndex(
-    (obj: any) => obj.endTime === data.endTime &&
-      obj.notes === data.notes &&
-      obj.startTime === data.startTime
-  );
-
-  // Check if the object was found and delete it
-  if (index !== -1) {
-    refUnassignedData.splice(index, 1);
-    refUnassigned.update({ requested: refUnassignedData });
-  } else {
-    console.log("Requested data not found in unassigned!!!");
-  }
+  refUnassigned.update({ requested: deleteArrayElement(refUnassignedData, data) });
 
   return "Done";
 });
 
-export const removeCarer = functions.https.onCall(async (data) => {
+export const deleteCarer = functions.https.onCall(async (data) => {
   // write the function to reverse the assignment
-  console.log();
+  const refAssigned = firestore.collection(`requests/${data.date}/assigned`).doc(data.patientID);
+  const refAssignedData = (await refAssigned.get()).data()!["requested"];
+  console.log(refAssignedData);
+  await refAssigned.update({ requested: deleteArrayElement(refAssignedData, data) });
+
+  const ref = firestore.collection(`requests/${data.date}/schedule`).doc(data.carerID);
+  const refData = (await ref.get()).data()!["booked"];
+
+  await ref.update({ booked: deleteArrayElement(refData, data) });
+
+  console.log("done");
 });
+
+export const removeEmptyUAreq = functions.firestore.document("requests/{date}/{UA}/{id}")
+  .onWrite(async (change, context) => {
+    if (context.params.UA === "assigned" || context.params.UA === "unassigned") {
+      const afterData = change.after.data();
+      const arrayField = afterData?.requested;
+
+      // Check if the field is an array and if it's empty
+      if (Array.isArray(arrayField) && arrayField.length === 0) {
+        const docRef = change.after.ref;
+        try {
+          await docRef.delete();
+          console.log(`Document ${context.params.id} deleted because array is empty.`);
+        } catch (error) {
+          console.error(`Failed to delete document ${context.params.id}: `, error);
+        }
+      }
+    }
+  });

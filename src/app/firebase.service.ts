@@ -105,4 +105,8 @@ export class FirebaseService {
     return this.functions.httpsCallable("assignCarer")({ "carerID": carer.id, "carerName": carer.name, "patientID": patientID, ...req })
   }
 
+  deassignCarer(req: any) {
+    return this.functions.httpsCallable("deleteCarer")(req)
+  }
+
 }

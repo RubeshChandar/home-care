@@ -37,7 +37,7 @@
         <p> Assigned to <span style="font-weight: bold;">{{req.carerName}}</span></p>
         <p class="notes">{{ (req.notes!=="")?req.notes: "No additional notes" }}</p>
         <p class="notes">{{ (req.carerNote!=="")?req.carerNote: "No Carer notes" }}</p>
-        <button class="btn btn-warning mb-1">Remove carer</button>
+        <button class="btn btn-warning mb-1" (click)="deleteAssignment(req)">Delete assignment</button>
       </div>
       }
     </div>
@@ -69,7 +69,8 @@
             <button class="btn btn-primary mt-1" (click)="assign(carer)">Assign <b>{{carer.name.split("
                 ")[0]}}</b></button>
           </div>
-          <small><span class="badge bg-primary">{{carer.matchPercent?carer.matchPercent:0}} %</span></small>
+          <small><span class="badge bg-primary"><b>{{carer.matchPercent?carer.matchPercent:0}}%</b>
+              match</span></small>
         </div>
       </a>
       }

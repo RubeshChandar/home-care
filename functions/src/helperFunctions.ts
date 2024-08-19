@@ -41,3 +41,20 @@ export function isTimeOutsideRange(a: number, b: number, s: number, e: number): 
   // Check if [a, b] falls completely outside [s, e]
   return timeB < start || timeA > end;
 }
+
+export function deleteArrayElement(arr: [], find: { startTime: number, endTime: number, notes: string }): [] | void {
+  const index = arr.findIndex(
+    (obj: any) => obj.endTime === find.endTime &&
+      obj.notes === find.notes &&
+      obj.startTime === find.startTime
+  );
+
+  // Check if the object was found and delete it
+  if (index !== -1) {
+    arr.splice(index, 1);
+    return arr;
+  } else {
+    console.log("Requested data not found in unassigned!!!");
+    return;
+  }
+}
