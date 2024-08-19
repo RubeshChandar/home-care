@@ -35,6 +35,10 @@
         <th>Insurance</th>
         <td>{{patient?.insuranceprovider}}</td>
       </tr>
+      <tr>
+        <th>Location</th>
+        <td>{{patient?.location?.district}}, {{patient?.location?.postcode!.split(" ")[0]}}</td>
+      </tr>
     </table>
   </div>
 </div>
@@ -76,7 +80,7 @@
 </a>
 
 <div class="mt-5"></div>
-<app-requests [patientID]="patientId"></app-requests>
+<app-requests [patientID]="patientId" [patient]="patient"></app-requests>
 
 @if (requestToggle) {
 <app-date-time-picker (dandT)="check($event)" />

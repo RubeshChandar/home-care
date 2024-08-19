@@ -84,8 +84,20 @@ export class FirebaseService {
       )
   }
 
-  getAvailability(date: string) {
-    this.functions.httpsCallable("checkAvailability")({ date: date }).subscribe()
+  getAvailability(req: UnAssigned) {
+    return this.functions.httpsCallable("getAvailableCarers")(req);
+  }
+
+  async getSpecialists() {
+    let specialists;
+    await new Promise<void>(res => {
+      this.firestore.collection("misc").doc("specialists").get()
+        .subscribe(special => {
+          specialists = special.data();
+          res();
+        })
+    })
+    return specialists;
   }
 
 }

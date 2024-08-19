@@ -1,8 +1,9 @@
 export interface Requests {
   date: string;
-  startTime: string;
-  endTime: string;
+  startTime: string | number;
+  endTime: string | number;
   notes?: string;
+  id?: string;
 };
 
 export interface UnAssigned extends Requests {

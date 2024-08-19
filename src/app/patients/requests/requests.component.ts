@@ -1,23 +1,31 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Subject, takeUntil } from 'rxjs';
+import { map, Subject, take, takeUntil } from 'rxjs';
 
 import { FirebaseService } from '../../firebase.service';
 import { Assigned, UnAssigned } from '../../models/requests.model';
 import { TimeFormatPipe } from "../../shared/time-format.pipe";
 import { DateFormatPipe } from "../../shared/date-format.pipe";
+import { Carer, Schedule } from '../../models/carer.model';
+import { matchCarerPatient } from './sort-function';
+import { Patient } from '../../models/patient.model';
+import { CommaSeparatedPipe } from "../../shared/comma-separated.pipe";
 
 @Component({
   selector: 'app-requests',
   standalone: true,
-  imports: [TimeFormatPipe, DateFormatPipe],
+  imports: [TimeFormatPipe, DateFormatPipe, CommaSeparatedPipe],
   templateUrl: './requests.component.html',
   styleUrl: './requests.component.css'
 })
 export class RequestsComponent implements OnInit, OnDestroy {
   @Input() patientID!: string;
+  @Input() patient?: Patient;
   unAssignedRequests?: UnAssigned[] = [];
   assignedRequests?: Assigned[] = [];
+  carersList?: Carer[] = [];
   unSubscribe: Subject<void> = new Subject();
+  openAssignDialog = false;
+  viewDate = "";
 
   currentIndex: number = 0;
   itemsPerView: number = 4; // Number of cards per view
@@ -43,6 +51,9 @@ export class RequestsComponent implements OnInit, OnDestroy {
       .subscribe(promise => promise.then(assignedRequests =>
         this.assignedRequests = assignedRequests
       ))
+
+    // debugging
+    // this.assign({ id: "Vy300YfRQeSy2vhRoy5v", notes: "Rubesh b'day", startTime: 17.5, endTime: 21.5, assigned: false, date: '2024-08-17' });
   }
 
   ngOnDestroy() {
@@ -65,6 +76,12 @@ export class RequestsComponent implements OnInit, OnDestroy {
     }
   }
 
+  getTagColor(rank: number): string {
+    if (rank < 10) return "green";
+    if (rank < 20) return "#9a77ef";
+    return "red";
+  }
+
   compareDates(dateString: string): string {
     const today = new Date();
     const todayString = today.toISOString().split('T')[0];
@@ -83,8 +100,23 @@ export class RequestsComponent implements OnInit, OnDestroy {
     }
   }
 
-  assign(date: string) {
-    this.firebaseServices.getAvailability(date)
+  assign(req: UnAssigned) {
+    this.viewDate = req.date;
+    this.firebaseServices.isLoadingSubject.next(true);
+    this.openAssignDialog = true;
+    this.firebaseServices.getAvailability({ ...req, id: this.patientID })
+      .pipe(map((carers: Carer[]) => matchCarerPatient(this.patient!, carers, this.firebaseServices)))
+      .subscribe(carers => {
+        carers.then(carers => this.carersList = carers)
+        this.firebaseServices.isLoadingSubject.next(false);
+      })
+  }
+
+  getCarerSchedule(carer: Carer) {
+    const date = new Date(this.viewDate);
+    const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    const schedule = carer.schedule[daysOfWeek[date.getDay()] as keyof Schedule];
+    return { "start": schedule![0], "end": schedule![1] }
   }
 
 }

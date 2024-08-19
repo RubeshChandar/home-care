@@ -1,3 +1,5 @@
+import { Location } from "./carer.model";
+
 export class Patient {
   id?: string;
   photo?: string;
@@ -14,6 +16,7 @@ export class Patient {
     noon: string[];
     night: string[];
   };
+  location!: Location;
   name: string;
   assigned?: boolean;
 
@@ -28,6 +31,7 @@ export class Patient {
     medicalcondition: string[],
     medication: { morning: string[], noon: string[], night: string[] },
     name: string,
+    location: Location,
     id?: string,
     photo?: string,
     assigned?: boolean
@@ -44,6 +48,7 @@ export class Patient {
     this.medication = medication;
     this.name = name;
     this.photo = photo;
+    this.location = location;
     this.assigned = assigned;
   }
 }

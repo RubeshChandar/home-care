@@ -1,22 +1,19 @@
+/* eslint-disable require-jsdoc */
 /* eslint-disable max-len */
 /* eslint-disable object-curly-spacing */
-
 import { firestore } from "./index";
 
-// eslint-disable-next-line require-jsdoc
 export function timeStringToNumber(time: string): number {
   const [hours, minutes] = time.split(":").map(Number);
   return hours + minutes / 60;
 }
 
-// eslint-disable-next-line require-jsdoc
 export function getDayName(dateString: string): string {
   const date = new Date(dateString);
   const daysOfWeek = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
   return daysOfWeek[date.getDay()];
 }
 
-// eslint-disable-next-line require-jsdoc
 export async function getAvailability(date: string) {
   const carers = await firestore.collection("carer").get();
   const day = getDayName(date);
@@ -34,4 +31,13 @@ export async function getAvailability(date: string) {
     }
   });
   console.info(`Schedule for ${date} (${day}) has been created`);
+}
+
+export function isTimeOutsideRange(a: number, b: number, s: number, e: number): boolean {
+  // Normalize the time range
+  const [start, end] = s <= e ? [s, e] : [e, s];
+  const [timeA, timeB] = a <= b ? [a, b] : [b, a];
+
+  // Check if [a, b] falls completely outside [s, e]
+  return timeB < start || timeA > end;
 }

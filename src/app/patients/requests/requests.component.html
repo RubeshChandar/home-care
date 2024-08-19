@@ -12,7 +12,7 @@
         <h4 style="color: white;">{{ req.date|dateFormat }}</h4>
         <p style="font-weight: bold;">{{req.startTime|timeFormat }} - {{req.endTime |timeFormat}}</p>
         <p class="notes">{{ (req.notes!=="")?req.notes: "No additional notes" }}</p>
-        <button class="btn btn-primary mb-1" (click)="assign(req.date)">Assign carer</button>
+        <button class="btn btn-primary mb-1" (click)="assign(req)">Choose carer</button>
       </div>
       }
     </div>
@@ -44,4 +44,33 @@
   </div>
   <button class="arrow right" (click)="scroll(1)">&#8250;</button>
   }
+</div>
+
+<div class="backdrop" [style.display]="openAssignDialog?'block':'none'">
+  <div class="carer">
+    <a class="float" (click)="openAssignDialog=false">
+      <i class="fa fa-plus my-float"></i>
+    </a>
+    <h3>Recommended Carers - {{carersList?.length}}</h3>
+    <div class="list-group">
+      @for (carer of carersList; track $index) {
+      <a class="list-group-item mb-2">
+        <div class="itag" [style.backgroundColor]="getTagColor($index)"># {{$index+1}}</div>
+        <div class="d-flex w-100 justify-content-between">
+          <img style="width: 10%;" [src]="carer.photo" alt="Pic">
+          <div class="center">
+            <h5 class="mb-1" style="font-size: 1.4em;">{{carer.name}}</h5>
+            <p class="mb-1">
+              Available from <b>{{getCarerSchedule(carer).start|timeFormat}}</b>
+              to <b>{{getCarerSchedule(carer).end|timeFormat}}</b>
+            </p>
+            <small>From <b>{{carer.location.district}}, {{carer.location.postcode.split(" ")[0]}}</b></small>
+            <br>Matching skills <b style="color: green;">{{carer.specialisation|commaSeparated}}</b>
+          </div>
+          <small><span class="badge bg-primary">{{carer.matchPercent?carer.matchPercent:0}} %</span></small>
+        </div>
+      </a>
+      }
+    </div>
+  </div>
 </div>

@@ -9,6 +9,20 @@
   border-radius: 20px;
 }
 
+.backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  height: 100vh;
+  width: 100%;
+  z-index: 1000;
+  align-content: center;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
 .carousel-wrapper {
   overflow: hidden;
   width: 100%;
@@ -90,4 +104,72 @@
   background-color: yellow;
   width: 100px;
   font-weight: bold;
+}
+
+.carer {
+  position: absolute;
+  top: 5vh;
+  background-color: #b28ef9de;
+  width: 80%;
+  margin: 0 10%;
+  padding: 2%;
+  border-radius: 20px;
+  height: 90%;
+}
+
+.list-group {
+  height: 90%;
+  overflow: scroll;
+  padding: 10px 20px;
+}
+
+
+.list-group-item {
+  border-radius: 10px;
+}
+
+.list-group-item:hover {
+  cursor: pointer;
+}
+
+.itag {
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  font-size: 0.8em;
+  transform: rotate(-45deg);
+  background-color: blue;
+  color: white;
+  width: 5%;
+  font-weight: bold;
+}
+
+h3 {
+  font-weight: bolder;
+  margin: 20px;
+  color: white;
+  text-align: center;
+  text-shadow: 6px 6px 12px black;
+}
+
+.float {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  top: -15px;
+  right: -15px;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 3px 1px 3px #999;
+  cursor: pointer;
+  transition: 0.5s;
+  z-index: 200;
+  transform: rotate(45deg);
+  background-color: red;
+}
+
+.my-float {
+  margin-top: 10px;
+  font-size: 1.2em;
 }
