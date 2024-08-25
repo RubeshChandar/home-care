@@ -1,0 +1,30 @@
+<div class="bd">
+  <div class="main">
+    <input type="checkbox" id="chk" aria-hidden="true">
+
+    <div class="signup">
+      <form (ngSubmit)="submit(false)">
+        <label for="chk" aria-hidden="true">Sign up</label>
+        <input type="text" name="name" placeholder="User name" [(ngModel)]="name">
+        <input type="email" name="email" placeholder="Email" [(ngModel)]="email">
+        <input type="password" name="pswd" placeholder="Password" [(ngModel)]="password">
+        <button type="submit">Sign up</button>
+        <small *ngIf="warnMsg">
+          <p><i class="fa-solid fa-triangle-exclamation"></i>{{warnMsg}}</p>
+        </small>
+      </form>
+    </div>
+
+    <div class="login">
+      <form (ngSubmit)="submit(true)">
+        <label for="chk" aria-hidden="true">Login</label>
+        <input type="email" name="email" placeholder="Email" required="" [(ngModel)]="email">
+        <input type="password" name="pswd" placeholder="Password" required="" [(ngModel)]="password">
+        <button type="submit">Login</button>
+        <small *ngIf="warnMsg">
+          <p><i class="fa-solid fa-triangle-exclamation"></i>{{warnMsg}}</p>
+        </small>
+      </form>
+    </div>
+  </div>
+</div>

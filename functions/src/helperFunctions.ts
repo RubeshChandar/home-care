@@ -42,10 +42,10 @@ export function isTimeOutsideRange(a: number, b: number, s: number, e: number): 
   return timeB < start || timeA > end;
 }
 
-export function deleteArrayElement(arr: [], find: { startTime: number, endTime: number, notes: string }): [] | void {
+export function deleteArrayElement(arr: [], find: { startTime: number, endTime: number }): [] | void {
   const index = arr.findIndex(
     (obj: any) => obj.endTime === find.endTime &&
-      obj.notes === find.notes &&
+      // obj.notes === find.notes &&
       obj.startTime === find.startTime
   );
 

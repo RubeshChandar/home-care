@@ -4,8 +4,10 @@
   </div>
 </div>
 
+@if (!isAuth) {
 <app-header />
-<div class="content">
+}
+<div [class.content]="!isAuth">
   <router-outlet />
 </div>
 

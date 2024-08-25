@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { map, Subject, take, takeUntil } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 
 import { FirebaseService } from '../../firebase.service';
 import { Assigned, UnAssigned } from '../../models/requests.model';
@@ -132,7 +132,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
 
   deleteAssignment(req: Assigned) {
     this.firebaseServices.deassignCarer({ ...req, patientID: this.patientID })
-      .subscribe()
+      .subscribe(e => { if (e === "done") this.snack(`${req.carerName} has now been removed`, "red") })
   }
 
 }

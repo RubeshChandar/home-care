@@ -111,9 +111,9 @@ export const deleteCarer = functions.https.onCall(async (data) => {
   const ref = firestore.collection(`requests/${data.date}/schedule`).doc(data.carerID);
   const refData = (await ref.get()).data()!["booked"];
 
-  await ref.update({ booked: deleteArrayElement(refData, data) });
+  await ref.update({ "booked": deleteArrayElement(refData, data) });
 
-  console.log("done");
+  return ("done");
 });
 
 export const removeEmptyUAreq = functions.firestore.document("requests/{date}/{UA}/{id}")
