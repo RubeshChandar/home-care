@@ -27,7 +27,7 @@ export class PatientComponent implements OnInit {
     this.snackIT(message, color)
   }
 
-  constructor(private route: ActivatedRoute,
+  constructor(route: ActivatedRoute,
     private firebaseService: FirebaseService) {
     window.scrollTo(0, 0);
     this.subscriptions.add(

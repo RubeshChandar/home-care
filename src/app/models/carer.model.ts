@@ -46,7 +46,7 @@ export class Schedule {
 }
 
 export class Carer {
-  id!: string;
+  id?: string;
   name!: string;
   age!: number;
   gender!: string;
@@ -58,7 +58,6 @@ export class Carer {
   specialisation!: string[];
 
   constructor(
-    id: string,
     name: string,
     age: number,
     gender: string,
@@ -67,9 +66,9 @@ export class Carer {
     location: Location,
     schedule: Schedule,
     matchPercent: number,
-    specialisation: string[]
+    specialisation: string[],
+    id?: string
   ) {
-    this.id = id;
     this.name = name;
     this.age = age;
     this.gender = gender;
@@ -79,5 +78,6 @@ export class Carer {
     this.schedule = schedule;
     this.matchPercent = matchPercent;
     this.specialisation = specialisation;
+    this.id = id;
   }
 }

@@ -11,10 +11,34 @@ import { Carer } from './models/carer.model';
 })
 export class FirebaseService {
   patientSubject = new BehaviorSubject<Patient[]>([]);
+  carerSubject = new BehaviorSubject<Carer[]>([]);
   isLoadingSubject = new BehaviorSubject<boolean>(false);
 
   constructor(private firestore: AngularFirestore, private functions: AngularFireFunctions) {
     this.getPatients();
+    this.getCarers();
+  }
+
+  getCarers() {
+    this.isLoadingSubject.next(true);
+    this.firestore.collection("carer").valueChanges({ idField: 'id' })
+      .pipe(
+        map(data => {
+          return data.map(
+            carer => {
+              return {
+                'id': carer.id,
+                ...carer as Carer
+              }
+            }
+          )
+        })
+      ).subscribe(
+        data => {
+          this.carerSubject.next(data);
+          this.isLoadingSubject.next(false);
+        }
+      )
   }
 
   getPatients() {
