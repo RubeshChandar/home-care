@@ -1,1 +1,86 @@
-<p>{{carer.name}}</p>
+@if (carer) {
+<div class="row">
+  <div class="col-md-4 offset-2 cards">
+    <div class="col-md-12">
+      <div class="img-cont">
+        <img [src]="carer.photo" alt="Image">
+      </div>
+    </div>
+    <div class="align-self-center">
+      <p class="name">{{carer.name | uppercase}}</p>
+      <p>{{carer.email}}</p>
+      <p>{{carer.age}}, {{carer.gender}}</p>
+      <p> {{carer.location.district}}, {{carer.location.postcode!.split(" ")[0]}}</p>
+      @for (special of carer.specialisation; track $index) {
+      <div class="special">{{special}}</div>
+      }
+    </div>
+  </div>
+
+  <div class="col-md-3 sp offset-md-1">
+    <div class="nameSP">Schedule</div>
+    <table class="table">
+      <tr>
+        <td>Monday</td>
+        @if (carer.schedule.monday) {
+        <th>{{carer.schedule.monday[0]|timeFormat}} - {{carer.schedule.monday[1]|timeFormat}}</th>
+        }@else {
+        <th style="color: rgb(255, 200, 0);">Not Working</th>
+        }
+      </tr>
+      <tr>
+        <td>Tuesday</td>
+        @if (carer.schedule.tuesday) {
+        <th>{{carer.schedule.tuesday[0]|timeFormat}} - {{carer.schedule.tuesday[1]|timeFormat}}</th>
+        }@else {
+        <th style="color: rgb(255, 200, 0);">Not Working</th>
+        }
+      </tr>
+      <tr>
+        <td>Wednesday</td>
+        @if (carer.schedule.wednesday) {
+        <th>{{carer.schedule.wednesday[0]|timeFormat}} - {{carer.schedule.wednesday[1]|timeFormat}}</th>
+        }@else {
+        <th style="color: rgb(255, 200, 0);">Not Working</th>
+        }
+      </tr>
+      <tr>
+        <td>Thursday</td>
+        @if (carer.schedule.thursday) {
+        <th>{{carer.schedule.thursday[0]|timeFormat}} - {{carer.schedule.thursday[1]|timeFormat}}</th>
+        }@else {
+        <th style="color: rgb(255, 200, 0);">Not Working</th>
+        }
+      </tr>
+      <tr>
+        <td>Friday</td>
+        @if (carer.schedule.friday) {
+        <th>{{carer.schedule.friday[0]|timeFormat}} - {{carer.schedule.friday[1]|timeFormat}}</th>
+        }@else {
+        <th style="color: rgb(255, 200, 0);">Not Working</th>
+        }
+      </tr>
+      <tr>
+        <td>Saturday</td>
+        @if (carer.schedule.saturday) {
+        <th>{{carer.schedule.saturday[0]|timeFormat}} - {{carer.schedule.saturday[1]|timeFormat}}</th>
+        }@else {
+        <th style="color: rgb(255, 200, 0);">Not Working</th>
+        }
+      </tr>
+      <tr>
+        <td>Sunday</td>
+        @if (carer.schedule.sunday) {
+        <th>{{carer.schedule.sunday[0]|timeFormat}} - {{carer.schedule.sunday[1]|timeFormat}}</th>
+        }@else {
+        <th style="color: rgb(255, 200, 0);">Not Working</th>
+        }
+      </tr>
+    </table>
+    <iframe width="100%" height="100%" [src]="getLoc()">
+    </iframe>
+
+  </div>
+
+</div>
+}
