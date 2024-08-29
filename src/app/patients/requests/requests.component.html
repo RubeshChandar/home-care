@@ -12,7 +12,8 @@
         <h4 style="color: white;">{{ req.date|dateFormat }}</h4>
         <p style="font-weight: bold;">{{req.startTime|timeFormat }} - {{req.endTime |timeFormat}}</p>
         <p class="notes">{{ (req.notes!=="")?req.notes: "No additional notes" }}</p>
-        <button class="btn btn-primary mb-1" (click)="openAssignment(req)">Choose carer</button>
+        <button [disabled]="buttonDisabled" class="btn btn-primary mb-1" (click)="openAssignment(req)">Choose
+          carer</button>
       </div>
       }
     </div>
@@ -37,7 +38,8 @@
         <p> Assigned to <span style="font-weight: bold;">{{req.carerName}}</span></p>
         <p class="notes">{{ (req.notes!=="")?req.notes: "No additional notes" }}</p>
         <p class="notes">{{ (req.carerNote!=="")?req.carerNote: "No Carer notes" }}</p>
-        <button class="btn btn-warning mb-1" (click)="deleteAssignment(req)">Delete assignment</button>
+        <button class="btn btn-warning mb-1" [disabled]="buttonDisabled" (click)="deleteAssignment(req)">Delete
+          assignment</button>
       </div>
       }
     </div>

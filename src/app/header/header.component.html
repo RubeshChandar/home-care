@@ -1,18 +1,18 @@
 <nav class="navbar navbar-expand-md justify-content-center" [class.hide]="hide">
   <ul class="navbar-nav">
-
+    @if (role==="admin") {
     <li class="nav-item" routerLinkActive="selected" routerLink="/patients">
       <a class="nav-link">Patients</a>
     </li>
-
+    }
     <li class="nav-item" routerLinkActive="selected" routerLink="/carers">
       <a class="nav-link">Carers</a>
     </li>
-
-    <li class="nav-item" routerLinkActive="selected" routerLink="/chat">
-      <a class="nav-link">Chat</a>
+    @if (role==="admin") {
+    <li class="nav-item" routerLinkActive="selected" routerLink="/admin">
+      <a class="nav-link">Admin</a>
     </li>
-
+    }
     <li class="nav-item">
       <a class="nav-link" (click)="signout()">Logout</a>
     </li>

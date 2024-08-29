@@ -13,8 +13,11 @@ export class HeaderComponent {
   @ViewChild('.navbar') nav!: ElementRef;
   hide = false;
   scroll = 0;
+  role = "admin"
 
-  constructor(private firebaseAuth: AngularFireAuth, private router: Router) { }
+  constructor(private firebaseAuth: AngularFireAuth, private router: Router) {
+    firebaseAuth.authState.subscribe(async user => this.role = (await (user?.getIdTokenResult()))?.claims['role'])
+  }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event) {
@@ -39,6 +42,5 @@ export class HeaderComponent {
 
   signout() {
     this.firebaseAuth.signOut().then(res => this.router.navigate(['/auth']));
-
   }
 }

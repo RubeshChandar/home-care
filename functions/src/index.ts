@@ -22,8 +22,12 @@ export const addRequest = functions.https.onCall(async (data, context) => {
 });
 
 export const fireTrigger = functions.firestore.document("requests/{date}/unassigned/{id}")
-  .onCreate((data, context) => {
-    getAvailability(context.params.date);
+  .onCreate(async (data, context) => {
+    const collectionRef = firestore.collection(`requests/${context.params.date}/schedule`);
+    const snapshot = await collectionRef.limit(1).get();
+    if (snapshot.size < 1) {
+      getAvailability(context.params.date);
+    }
   });
 
 export const getAvailableCarers = functions.https.onCall(async (unassignedRequest, context) => {
@@ -135,8 +139,8 @@ export const removeEmptyUAreq = functions.firestore.document("requests/{date}/{U
     }
   });
 
-export const createAdmin = functions.https.onCall(async (data, context) => {
-  const { email, password, displayName } = data;
+export const createUser = functions.https.onCall(async (data, context) => {
+  const { email, password, displayName, uid, role } = data;
   const isDisabled = false;
 
   try {
@@ -146,25 +150,26 @@ export const createAdmin = functions.https.onCall(async (data, context) => {
       password: password,
       displayName: displayName,
       disabled: isDisabled,
+      uid: uid,
     });
 
-    firestore.collection("admin").doc(userRecord.uid).create({
-      uid: userRecord.uid,
-      email: email,
-      displayName: displayName,
-      createdAt: FieldValue.serverTimestamp(),
-    });
+    const customClaims = {
+      role: role || "carer",
+    };
+
+    await admin.auth().setCustomUserClaims(userRecord.uid, customClaims);
 
     return {
       uid: userRecord.uid,
       email: userRecord.email,
       displayName: userRecord.displayName,
       disabled: isDisabled,
-      message: isDisabled ? "User created but disabled" : "User created successfully",
+      message: `${userRecord.displayName} created successfully`,
     };
   } catch (error) {
     // Ensure that error is typed as Error or FirebaseError
     const typedError = error as Error;
-    throw new functions.https.HttpsError("internal", typedError.message, typedError);
+    // throw new functions.https.HttpsError("internal", typedError.message, typedError);
+    return { message: typedError.message };
   }
 });

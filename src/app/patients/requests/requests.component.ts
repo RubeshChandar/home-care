@@ -27,6 +27,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
   unSubscribe: Subject<void> = new Subject();
   openAssignDialog = false;
   selectedReq?: UnAssigned;
+  buttonDisabled = false;
 
   currentIndex: number = 0;
   itemsPerView: number = 4; // Number of cards per view
@@ -52,9 +53,7 @@ export class RequestsComponent implements OnInit, OnDestroy {
       .subscribe(promise => promise.then(assignedRequests =>
         this.assignedRequests = assignedRequests
       ))
-
-    // debugging
-    // this.assign({ id: "Vy300YfRQeSy2vhRoy5v", notes: "Rubesh b'day", startTime: 17.5, endTime: 21.5, assigned: false, date: '2024-08-17' });
+    if (this.firebaseServices.role === "carer") this.buttonDisabled = true
   }
 
   ngOnDestroy() {

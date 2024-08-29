@@ -1,0 +1,13 @@
+.card {
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 30px;
+  background-color: var(--card-color);
+  box-shadow: 2px 3px 11px 4px #7b699e;
+}
+
+i {
+  color: yellow;
+  margin-right: 10px;
+  font-weight: bold;
+}

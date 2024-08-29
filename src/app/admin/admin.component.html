@@ -1,0 +1,34 @@
+<h2 class="text-center">User Creation</h2>
+<div class="col-md-4 offset-md-4 card mt-5">
+  <form (submit)="createAdmin()">
+    <div class="mb-2">
+      <label for="name" class="form-label">Display Name</label>
+      <input type="text" class="form-control" name="name" [(ngModel)]="name">
+    </div>
+    <div class="mb-2">
+      <label for="name" class="form-label">UID <small>(Optional)</small></label>
+      <input type="text" class="form-control" name="uid" [(ngModel)]="uid">
+    </div>
+    <div class="mb-2">
+      <label for="exampleInputEmail1" class="form-label">Email address</label>
+      <input type="email" class="form-control" name="exampleInputEmail1" [(ngModel)]="email">
+      <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    </div>
+    <div class="mb-2">
+      <label for="exampleInputPassword1" class="form-label">Password</label>
+      <input type="password" class="form-control" name="exampleInputPassword1" [(ngModel)]="password">
+    </div>
+    <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" name="exampleCheck1" [checked]="admin" (change)="admin=!admin">
+      <label class="form-check-label" for="exampleCheck1">admin user</label>
+    </div>
+    <div class="text-center">
+      <button type="submit" class="btn btn-primary">Create Admin</button>
+    </div>
+  </form>
+  @if(warnMsg){
+  <p class="text-center mt-1" style="font-weight: bold;">
+    <i class="fa-solid fa-triangle-exclamation"></i>{{warnMsg}}
+  </p>
+  }
+</div>

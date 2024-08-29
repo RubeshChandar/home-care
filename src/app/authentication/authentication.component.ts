@@ -52,12 +52,18 @@ export class AuthenticationComponent {
       this.firebaseAuth.signInWithEmailAndPassword(
         this.email, this.password
       ).then(
-        () => this.router.navigate(['/patients'])
+        async (user) => {
+          const token = await user.user?.getIdTokenResult()
+          if (token?.claims['role'] !== "carer") {
+            this.router.navigate([`/carers/${user.user?.uid}`])
+          }
+          this.router.navigate(["/patients"])
+        }
       ).catch(e => this.warnMsg = extractErrorMessage(e))
 
       :
 
-      this.functions.httpsCallable("createAdmin")({
+      this.functions.httpsCallable("createUser")({
         email: this.email, password: this.password, displayName: this.name
       }).subscribe(u => {
         this.warnMsg = u.message;

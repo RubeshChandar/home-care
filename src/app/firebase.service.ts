@@ -5,6 +5,7 @@ import { Patient } from './models/patient.model';
 import { Assigned, Requests, UnAssigned } from './models/requests.model';
 import { AngularFireFunctions } from '@angular/fire/compat/functions';
 import { Carer } from './models/carer.model';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +14,23 @@ export class FirebaseService {
   patientSubject = new BehaviorSubject<Patient[]>([]);
   carerSubject = new BehaviorSubject<Carer[]>([]);
   isLoadingSubject = new BehaviorSubject<boolean>(false);
+  role = "admin"
 
-  constructor(private firestore: AngularFirestore, private functions: AngularFireFunctions) {
+  constructor(
+    private firestore: AngularFirestore,
+    private functions: AngularFireFunctions,
+    private auth: AngularFireAuth) {
     this.getPatients();
     this.getCarers();
+    this.getRole()
+  }
+
+  getRole() {
+    this.auth.authState.subscribe(
+      async user => {
+        this.role = (await (user?.getIdTokenResult()))?.claims['role']
+      }
+    )
   }
 
   getCarers() {
@@ -131,6 +145,15 @@ export class FirebaseService {
 
   deassignCarer(req: any) {
     return this.functions.httpsCallable("deleteCarer")(req)
+  }
+
+  getAssignment(date: string, carerID: string) {
+    return this.firestore.collection(`requests/${date}/schedule`).doc(carerID).get()
+      .pipe(map(res => {
+        const resp = res.data() as { booked: [], startTime: number, end: number };
+        if (resp === undefined) return []
+        return resp.booked
+      }))
   }
 
 }

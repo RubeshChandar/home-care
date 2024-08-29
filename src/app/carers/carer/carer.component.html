@@ -1,6 +1,6 @@
 @if (carer) {
 <div class="row">
-  <div class="col-md-4 offset-2 cards">
+  <div class="col-md-4 cards">
     <div class="col-md-12">
       <div class="img-cont">
         <img [src]="carer.photo" alt="Image">
@@ -17,7 +17,7 @@
     </div>
   </div>
 
-  <div class="col-md-3 sp offset-md-1">
+  <div class="col-md-7 offset-md-1 sp">
     <div class="nameSP">Schedule</div>
     <table class="table">
       <tr>
@@ -77,10 +77,39 @@
         }
       </tr>
     </table>
-    <iframe width="100%" height="100%" [src]="getLoc()">
-    </iframe>
-
+    <div class="fl">
+      <google-map height="400px" width="800px" [options]="options">
+        <map-advanced-marker [position]="home" [content]="homeContent" />
+        @for (markers of assignmentMarkers; track $index) {
+        <map-advanced-marker [position]="markers" />
+        }
+      </google-map>
+    </div>
   </div>
+</div>
 
+<div class="row mt-5 mb-3">
+  <div class="col-md-3">
+    <input type="date" class="date" [(ngModel)]="selectedDate" (change)="assignments()">
+  </div>
+  @if (warn) {
+  <div class="col-md-4 align-self-center">
+    <p style="color: red;"><i class="fa-solid fa-triangle-exclamation"></i>Change the date to see some assignments</p>
+  </div>
+  }
+</div>
+
+<div class="row rAssi">
+  @for (asgn of assignment; track $index) {
+  <div class="col-md-6  my-2">
+    <div class="cAssi">
+      <img [src]="asgn.patientDetails.photo" style="width: 10%;margin-right: 20px;">
+      {{asgn.patientDetails.name}}
+      At {{asgn.patientDetails.location.district}}, {{asgn.patientDetails.location.postcode.split(" ")[0]}}
+      <span class="det">From {{asgn.startTime|timeFormat}} to {{asgn.endTime|timeFormat}}</span>
+      <button class="btn btn-warning" (click)="takeme(asgn.patient)">View Patient</button>
+    </div>
+  </div>
+  }
 </div>
 }
