@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
+import { AngularFireFunctions } from '@angular/fire/compat/functions';
 
 
 export function extractErrorMessage(error: any): string {
@@ -34,7 +35,11 @@ export class AuthenticationComponent {
   email = "";
   password = "";
 
-  constructor(private firebaseAuth: AngularFireAuth, private router: Router) { }
+  constructor(
+    private firebaseAuth: AngularFireAuth,
+    private router: Router,
+    private functions: AngularFireFunctions
+  ) { }
 
   submit(login: boolean) {
     if (this.email === "" || this.password === "") {
@@ -47,21 +52,18 @@ export class AuthenticationComponent {
       this.firebaseAuth.signInWithEmailAndPassword(
         this.email, this.password
       ).then(
-        res => {
-          res.user?.updateProfile({
-            displayName: this.name,
-          })
-          console.log(`${res.user?.displayName} has been signed in successfully`);
-          this.router.navigate(['/patients'])
-        }
+        () => this.router.navigate(['/patients'])
       ).catch(e => this.warnMsg = extractErrorMessage(e))
 
       :
 
-      this.firebaseAuth.createUserWithEmailAndPassword(
-        this.email, this.password
-      ).then(
-        res => console.log(`${res.user?.displayName} has been created successfully`)
-      ).catch(e => this.warnMsg = extractErrorMessage(e))
+      this.functions.httpsCallable("createAdmin")({
+        email: this.email, password: this.password, displayName: this.name
+      }).subscribe(u => {
+        this.warnMsg = u.message;
+        if (!u.disabled) {
+          this.submit(true)
+        }
+      })
   }
 }

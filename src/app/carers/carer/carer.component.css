@@ -87,7 +87,8 @@ th {
 
 .special {
   border-radius: 10px;
-  background-color: #e3e3e3;
+  background-color: black;
+  color: rgb(255, 200, 0);
   padding: 7px;
   margin: 2px 4px;
   font-size: 0.78em;

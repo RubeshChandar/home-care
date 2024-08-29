@@ -134,3 +134,37 @@ export const removeEmptyUAreq = functions.firestore.document("requests/{date}/{U
       }
     }
   });
+
+export const createAdmin = functions.https.onCall(async (data, context) => {
+  const { email, password, displayName } = data;
+  const isDisabled = false;
+
+  try {
+    // Create a new user with the provided email and password
+    const userRecord = await admin.auth().createUser({
+      email: email,
+      password: password,
+      displayName: displayName,
+      disabled: isDisabled,
+    });
+
+    firestore.collection("admin").doc(userRecord.uid).create({
+      uid: userRecord.uid,
+      email: email,
+      displayName: displayName,
+      createdAt: FieldValue.serverTimestamp(),
+    });
+
+    return {
+      uid: userRecord.uid,
+      email: userRecord.email,
+      displayName: userRecord.displayName,
+      disabled: isDisabled,
+      message: isDisabled ? "User created but disabled" : "User created successfully",
+    };
+  } catch (error) {
+    // Ensure that error is typed as Error or FirebaseError
+    const typedError = error as Error;
+    throw new functions.https.HttpsError("internal", typedError.message, typedError);
+  }
+});
